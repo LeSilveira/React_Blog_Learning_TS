@@ -1,6 +1,6 @@
 # React-Blog Learning 📖
 
-💡 A simple repository with code developed to learn some basic concepts of React, using some JS tools in a fullstack blog-themed application.  
+💡 A simple repository with code developed to learn some basic concepts of React, using some JS tools in a fullstack blog-themed application.  💡 It's the same application as in my React_Blog_Learning_JS repository, but using TS and other features I wanted to explore.
 
 ## Currently used tools 🧰
 ### 🔧 Vite - Build, configure and run.  
@@ -11,7 +11,7 @@
 ## How to run ✔️
 ❗ Be sure you have Node.js (recommended >= 16.x) and npm or Yarn installed.
 
-⌨️ In a terminal and in the folder you want to clone the repository, run:
+⌨️ In a terminal, navigate to the folder you want to clone the repository, then run:
 1. Clone the repo  
    - git clone https://github.com/LeSilveira/React_Blog_Learning.git
    - cd React_Blog_Learning
