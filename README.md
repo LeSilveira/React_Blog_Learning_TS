@@ -7,6 +7,7 @@
 ### 🪜 React router - Routing using React compatibility.
 ### ⛏️ Knex - SQL building and data management in JS.
 ### 🖌️ React - Responsive front-end.  
+### 🧩 TypeScript - Type consistency
 
 ## How to run ✔️
 ❗ Be sure you have Node.js (recommended >= 16.x) and npm or Yarn installed.
