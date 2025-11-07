@@ -4,7 +4,7 @@ import {postRoutes} from './routes/postRoutes';
 import {welcomeRoutes} from './routes/welcomeRoutes';
 
 const app: Express = express();
-const port: number = 3001;
+const port: number = 3000
 
 app.use(cors());
 app.use(express.json()); // Used to parse JSON string into JS objects, and get them from req.body in POSTS and PUT requests
