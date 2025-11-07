@@ -5,13 +5,15 @@ import { Post, reqError } from "../types";
 function UpdatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [currentContent, setCurrentContent] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/posts/${id}`);
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`);
 
         if (res.status !== 200) {
           const data = (await res.json()) as reqError;
@@ -25,7 +27,10 @@ function UpdatePostPage() {
           throw new Error(`Error ${res.status} - ${data.message}`);
         }
 
-        const data = (await res.json()) as Post;
+        const data: Post = (await res.json());
+
+        setCurrentTitle(data.title);
+        setCurrentContent(data.content);
 
         setTitle(data.title);
         setContent(data.content);
@@ -40,13 +45,19 @@ function UpdatePostPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let post = new Object;
+
+    // Check which fields should be updated
+    title !== currentTitle ? post = {...post, title} : null;
+    content !== currentContent ? post = {...post, content} : null;
+
     try {
-      const res = await fetch(`http://localhost:3001/api/posts/${id}`, {
-        method: "PUT",
+      const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify(post),
       });
 
       const data = await res.json(); // New post object or an error message

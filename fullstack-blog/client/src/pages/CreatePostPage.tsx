@@ -11,7 +11,7 @@ function CreatePostPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3001/api/posts/", {
+      const res = await fetch("http://localhost:3000/api/posts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

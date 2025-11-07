@@ -14,7 +14,7 @@ function PostPage() {
       )
     ) {
       try {
-        const res = await fetch(`http://localhost:3001/api/posts/${id}`, {
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
           method: "DELETE",
         });
 
@@ -42,7 +42,7 @@ function PostPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/posts/${id}`);
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`);
 
         if (res.status !== 200) {
           const data = (await res.json()) as reqError;
