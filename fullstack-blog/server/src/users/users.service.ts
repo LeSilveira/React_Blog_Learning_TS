@@ -38,7 +38,7 @@ export class UsersService {
 
     createUserDto.password = hashedPassword;
 
-    const user = this.usersRepository.create(createUserDto);
+    const {password, ...user} = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
   }
 
