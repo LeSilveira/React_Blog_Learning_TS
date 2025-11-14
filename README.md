@@ -16,6 +16,7 @@
 
 ## Tolls used only in the NestJS server 🧰
 ### 🪺 NestJS - Run the server-side, manage routing and data management.
+### 🛂 Passport.js - Manage user authentication.
 
 ## How to run ✔️
 ❗ Be sure you have Node.js (recommended >= 16.x) and npm or Yarn installed.
