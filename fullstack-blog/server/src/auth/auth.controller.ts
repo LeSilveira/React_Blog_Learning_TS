@@ -9,7 +9,7 @@ export class AuthController {
     constructor(private authService: AuthService,
     private usersService: UsersService){}
 
-    @UseGuards(AuthGuard('local'))
+    @UseGuards(AuthGuard('local')) // Attach the return (user) to the request
     @Post('login')
     async login(@Request() req){
         return this.authService.login(req.user);
