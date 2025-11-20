@@ -1,5 +1,7 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { selectCurrentToken, selectCurrentUserId } from "../store/authSlice";
 import { Post, reqError } from "../types";
 
 function CreatePostPage() {
@@ -7,16 +9,25 @@ function CreatePostPage() {
   const [content, setContent] = useState<string>("");
   const navigate = useNavigate();
 
+  const token = useSelector(selectCurrentToken);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!token) {
+      alert("You must be logged in to create a post!");
+      navigate("/login");
+      return;
+    }
 
     try {
       const res = await fetch("http://localhost:3000/api/posts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content}),
       });
 
       if (res.status !== 201) {
@@ -33,9 +44,7 @@ function CreatePostPage() {
 
       const data = (await res.json()) as Post;
 
-      const newId = data.id;
-
-      navigate(`/posts/${newId}`);
+      navigate(`/posts/${data.id}`);
     } catch (error) {
       console.error(error);
       window.alert(error);
@@ -51,9 +60,7 @@ function CreatePostPage() {
             type="text"
             id="title"
             value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setTitle(e.target.value)
-            }
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
@@ -62,9 +69,7 @@ function CreatePostPage() {
           <textarea
             id="content"
             value={content}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setContent(e.target.value)
-            }
+            onChange={(e) => setContent(e.target.value)}
             required
           />
         </div>

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Post } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class PostsService {
@@ -12,8 +13,8 @@ export class PostsService {
     private postsRepository: Repository<Post>,
   ){}
 
-  async create(createPostDto: CreatePostDto): Promise<Post> {
-    const newPost = this.postsRepository.create(createPostDto);
+  async create(createPostDto: CreatePostDto, author_id: number): Promise<Post> {
+    const newPost = this.postsRepository.create({...createPostDto, author_id});
     return this.postsRepository.save(newPost);
   }
 

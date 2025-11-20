@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Post } from '../../posts/entities/post.entity';
 
 @Entity('user')
 export class User {
@@ -31,6 +33,9 @@ export class User {
 
   @Column({unique: true})
   cpf: string;
+
+  @OneToMany(() => Post, (post) => post.author_id)
+  posts: Post[]
 
   @CreateDateColumn()
   created_at: Date;

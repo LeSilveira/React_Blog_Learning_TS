@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../store/authSlice";
 import { Post, reqError } from "../types";
 
 function PostPage() {
   const { id } = useParams();
   const [post, setPost] = useState<Post>({} as Post);
   const navigate = useNavigate();
+
+  const token = useSelector(selectCurrentToken);
 
   const deletePost = async () => {
     if (
@@ -14,8 +18,17 @@ function PostPage() {
       )
     ) {
       try {
+        if (!token) {
+          alert("You must be logged in to delete a post!");
+          navigate("/login");
+          return;
+        }
+
         const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
           method: "DELETE",
+          headers: {
+          'Authorization': `Bearer ${token}`,
+          }
         });
 
         const data = (await res.json()) as reqError;

@@ -8,6 +8,7 @@ import FooterDefault from './components/FooterDefault'
 import PostPage from './pages/PostPage'
 import CreatePostPage from './pages/CreatePostPage';
 import UpdatePostPage from './pages/UpdatePostPage';
+import LoginPage from './pages/LoginPage'
 
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
 
         {/* Route for post updating page */}
         <Route path="/posts/update/:id" element={<UpdatePostPage />} />
+
+        {/* Route for login page */}
+        <Route path="/login" element={<LoginPage />} />
 
       </Routes>
       <FooterDefault />

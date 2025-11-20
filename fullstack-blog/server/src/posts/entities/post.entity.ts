@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('posts')
 export class Post {
@@ -17,8 +20,12 @@ export class Post {
   @Column({ type: 'text' })
   content: string;
 
-  @Column({type: 'integer', default: 1})
-    author_id: number;
+  @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'author_id' })
+  user: User;
+
+  @Column({ type: 'integer', default: 1 })
+  author_id: number;
 
   @CreateDateColumn()
   created_at: Date;

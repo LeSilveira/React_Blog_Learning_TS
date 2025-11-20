@@ -14,7 +14,7 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOneEmail(email);
 
-    if (await bcrypt.compare(password, user.password)) {
+    if (!await bcrypt.compare(password, user.password)) {
       throw new UnauthorizedException(`You've inserted the wrong password! Is it really you? :/`);
     }
 
@@ -26,6 +26,7 @@ export class AuthService {
     const payload = { sub: user.id, email: user.email };
     return {
       access_token: this.jwtService.sign(payload),
+      userId: user.id,
     };
   }
 }

@@ -17,7 +17,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     const emailExists =
       (await this.usersRepository.findOne({
         where: { email: createUserDto.email },
@@ -38,8 +38,9 @@ export class UsersService {
 
     createUserDto.password = hashedPassword;
 
-    const {password, ...user} = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+    const user = this.usersRepository.create(createUserDto);
+    const { password, ...result } = await this.usersRepository.save(user);
+    return result;
   }
 
   async findAll(): Promise<User[]> {

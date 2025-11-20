@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { selectCurrentToken } from "../store/authSlice";
+import { useSelector } from "react-redux";
 import { Post, reqError } from "../types";
 
 function UpdatePostPage() {
@@ -9,6 +11,8 @@ function UpdatePostPage() {
   const [currentContent, setCurrentContent] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const token = useSelector(selectCurrentToken);
 
   useEffect(() => {
     (async () => {
@@ -45,6 +49,12 @@ function UpdatePostPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!token) {
+      alert('You must be logged in to update a post!');
+      navigate('/login');
+      return;
+    }
+
     let post = new Object;
 
     // Check which fields should be updated
@@ -56,6 +66,7 @@ function UpdatePostPage() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(post),
       });
@@ -91,7 +102,7 @@ function UpdatePostPage() {
             type="text"
             id="title"
             value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setTitle(e.target.value.trim())
             }
             required
@@ -102,7 +113,7 @@ function UpdatePostPage() {
           <textarea
             id="content"
             value={content}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            onChange={(e) =>
               setContent(e.target.value.trim())
             }
             required
