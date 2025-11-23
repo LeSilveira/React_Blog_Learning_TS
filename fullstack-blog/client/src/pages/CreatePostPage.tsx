@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectCurrentToken, selectCurrentUserId } from "../store/authSlice";
+import { selectCurrentToken } from "../store/authSlice";
 import { Post, reqError } from "../types";
 
 function CreatePostPage() {
@@ -27,7 +27,7 @@ function CreatePostPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, content}),
+        body: JSON.stringify({ title, content }),
       });
 
       if (res.status !== 201) {

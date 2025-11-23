@@ -7,6 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
+import { Comment } from '../../comments/entities/comment.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('user')
 export class User {
@@ -17,6 +19,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
@@ -36,6 +39,9 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.author_id)
   posts: Post[]
+  
+  @OneToMany(() => Comment, (comment) => comment.author_id)
+  comments: Comment[]
 
   @CreateDateColumn()
   created_at: Date;

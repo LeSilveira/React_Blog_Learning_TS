@@ -36,12 +36,12 @@ export class PostsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
+  async update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto, @Request() req) {
+    return this.postsService.update(+id, updatePostDto, req.user.id);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
+  async remove(@Param('id') id: string, @Request() req) {
+    return this.postsService.remove(+id, req.user.id);
   }
 }

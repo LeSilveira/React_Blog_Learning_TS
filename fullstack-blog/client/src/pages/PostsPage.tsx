@@ -36,11 +36,15 @@ function PostsPage() {
 
   return (
     <ul>
-      {posts.map((post) => (
-        <li key={post.id}>
-          <Link to={`/posts/${post.id}`}> {post.title} </Link>
-        </li>
-      ))}
+      {posts.length === 0 ? (
+        <h3>{`No post has been made yet, come back later or create one :)`}</h3>
+      ) : (
+        posts.map((post) => (
+          <li key={post.id}>
+            <Link to={`/posts/${post.id}`}> {post.title} </Link>
+          </li>
+        ))
+      )}
     </ul>
   );
 }

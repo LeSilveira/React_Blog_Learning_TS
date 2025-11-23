@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../store/authSlice";
+import { selectCurrentToken, selectCurrentUserId } from "../store/authSlice";
 import { Post, reqError } from "../types";
+import CommentSection from "../components/CommentSection";
 
 function PostPage() {
   const { id } = useParams();
   const [post, setPost] = useState<Post>({} as Post);
   const navigate = useNavigate();
 
+  const author_id = useSelector(selectCurrentUserId);
   const token = useSelector(selectCurrentToken);
 
   const deletePost = async () => {
@@ -27,8 +29,8 @@ function PostPage() {
         const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
           method: "DELETE",
           headers: {
-          'Authorization': `Bearer ${token}`,
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const data = (await res.json()) as reqError;
@@ -70,6 +72,9 @@ function PostPage() {
         }
 
         const data = (await res.json()) as Post;
+        
+        console.log(data);
+
         document.title = `Post ${String(data.id)} - ${data.title}`;
         setPost(data);
       } catch (error) {
@@ -94,11 +99,18 @@ function PostPage() {
           Just a post with the {post.id} id and title {post.title}
         </p>
         <h3> {post.content} </h3>
-        <button onClick={deletePost}>Delete Post</button>
-        <button onClick={() => navigate(`/posts/update/${post.id}`)}>
-          Update Post
-        </button>
+        {post.author_id === author_id ? (
+          <>
+            <button onClick={deletePost}>Delete Post</button>
+            <button onClick={() => navigate(`/posts/update/${post.id}`)}>
+              Update Post
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
+      <CommentSection post_id={post.id} />
     </>
   );
 }
